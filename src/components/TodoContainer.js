@@ -1,3 +1,5 @@
+/* eslint no-param-reassign: "error" */
+
 import React, { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
@@ -8,6 +10,13 @@ import TodoList from './TodoList';
 import About from '../pages/About';
 import NotMatch from '../pages/NotMatch';
 
+function getInitialTodos() {
+  // getting stored items
+  const temp = localStorage.getItem('todos');
+  const savedTodos = JSON.parse(temp);
+  return savedTodos || [];
+}
+
 const TodoContainer = () => {
   const [todos, setTodos] = useState(getInitialTodos());
 
@@ -16,13 +25,6 @@ const TodoContainer = () => {
     const temp = JSON.stringify(todos);
     localStorage.setItem('todos', temp);
   }, [todos]);
-
-  function getInitialTodos() {
-    // getting stored items
-    const temp = localStorage.getItem('todos');
-    const savedTodos = JSON.parse(temp);
-    return savedTodos || [];
-  }
 
   const handleChange = (id) => {
     setTodos((prevState) => prevState.map((todo) => {
